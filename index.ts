@@ -5,11 +5,11 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 /* ROUTE IMPORTS */
-import projectRoutes from "./routes/projectRoutes";
-import taskRoutes from "./routes/taskRoutes";
-import searchRoutes from "./routes/searchRoutes";
-import userRoutes from "./routes/userRoutes";
-import teamRoutes from "./routes/teamRoutes";
+import projectRoutes from "./src/routes/projectRoutes";
+import taskRoutes from "./src/routes/taskRoutes";
+import searchRoutes from "./src/routes/searchRoutes";
+import userRoutes from "./src/routes/userRoutes";
+import teamRoutes from "./src/routes/teamRoutes";
 
 /* CONFIGURATIONS */
 dotenv.config();
