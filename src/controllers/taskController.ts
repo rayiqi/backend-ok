@@ -87,6 +87,50 @@ export const updateTaskStatus = async (
   }
 };
 
+export const updateTask = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { taskId } = req.params;
+  const {
+    title,
+    description,
+    status,
+    priority,
+    tags,
+    startDate,
+    dueDate,
+    points,
+    projectId,
+    authorUserId,
+    assignedUserId,
+  } = req.body;
+  try {
+    const updatedTask = await prisma.task.update({
+      where: {
+        id: Number(taskId),
+      },
+      data: {
+        title,
+        description,
+        status,
+        priority,
+        tags,
+        startDate,
+        dueDate,
+        points,
+        projectId,
+        authorUserId,
+        assignedUserId,
+      },
+    });
+    res.json(updatedTask);
+  } catch (error: any) {
+    res.status(500).json({ message: `Error updating task: ${error.message}` });
+  }
+};
+
+
 export const getUserTasks = async (
   req: Request,
   res: Response
