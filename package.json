@@ -7,13 +7,14 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "prisma generate",
-    "build": "prisma generate && rimraf dist && npx tsc",
-    "start": "npm run build && node dist/index.js",
-    "dev": "npm run build && concurrently \"npx tsc -w\" \"nodemon --exec ts-node index.ts\"",
-    "seed": "ts-node prisma/seed.ts"
+  "test": "echo \"Error: no test specified\" && exit 1",
+  "postinstall": "prisma generate",
+  "build": "rimraf dist && npx tsc",
+  "start": "npm run build && node dist/index.js",
+  "dev": "concurrently \"npx tsc -w\" \"nodemon --exec ts-node index.ts\"",
+  "seed": "ts-node prisma/seed.ts"
   },
+
   "keywords": [],
   "author": "",
   "license": "ISC",
