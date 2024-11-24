@@ -8,9 +8,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "prisma generate && npm install --omit=dev", 
+    "postinstall": "prisma generate", 
     "build": "prisma generate && rimraf dist && npx tsc",  
-    "start": "npm run build && npm ci --production && node dist/index.js",
+    "start": "npm run build && node dist/index.js",  
     "dev": "npm run build && concurrently \"npx tsc -w\" \"nodemon --exec ts-node index.ts\"",  
     "seed": "ts-node prisma/seed.ts" 
   },
