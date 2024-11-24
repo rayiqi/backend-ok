@@ -11,12 +11,15 @@ import { authenticateUser } from "../middleware/authentication";
 import multer from "multer";
 
 const router = Router();
+<<<<<<< HEAD
 
 // Konfigurasi Multer untuk penyimpanan di memori
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 // Rute Proyek
+=======
+>>>>>>> b677cd23e1dd55a6991a18e758b3464131e7eceb
 router.get("/", getProjects);
 router.get("/my-projects", authenticateUser, getProjectsByAuthorUserId);
 router.get("/:projectId", getProjectByProjectId);

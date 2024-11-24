@@ -37,6 +37,7 @@ app.use("/users", userRoutes);
 app.use("/teams", teamRoutes);
 app.use("/projects-teams", projectTeamRoutes);
 
+<<<<<<< HEAD
 // Konfigurasi Swagger
 const swaggerOptions = {
   definition: {
@@ -57,6 +58,8 @@ const swaggerOptions = {
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+=======
+>>>>>>> b677cd23e1dd55a6991a18e758b3464131e7eceb
 /* SERVER */
 const port = Number(process.env.PORT) || 3000;
 app.listen(port, "0.0.0.0", () => {
