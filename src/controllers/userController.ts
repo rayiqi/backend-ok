@@ -17,6 +17,26 @@ export const getUsers = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+export const getUserLogin = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const userId = (req as any).user.userId;
+  try {
+    const user = await prisma.user.findUnique({
+      where: { userId },
+    });
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
+    }
+    res.json(user);
+  } catch (error: any) {
+    res
+      .status(500)
+      .json({ message: `Error retrieving user: ${error.message}` });
+  }
+};
+
 export const getUser = async (req: Request, res: Response): Promise<void> => {
   const { userId } = req.params;
   try {
@@ -123,6 +143,21 @@ export const createUser = async (req: Request, res: Response) => {
   } catch (error: any) {
     return res.status(500).json({
       message: `Error creating user: ${error.message}`,
+    });
+  }
+};
+
+export const verfifyToken = async (req: Request, res: Response) => {
+  try {
+    const token = req.headers.authorization?.split(" ")[1];
+    if (!token) {
+      return res.status(400).json({ message: "Token not found" });
+    }
+    const decodedToken = jwt.verify(token, "fregtrhyrtgrsfewr324t5ergfdc");
+    return res.status(200).json({ message: "Token verified", decodedToken });
+  } catch (error: any) {
+    return res.status(500).json({
+      message: `Error verifying token: ${error.message}`,
     });
   }
 };

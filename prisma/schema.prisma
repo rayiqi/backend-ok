@@ -15,20 +15,49 @@ datasource db {
 
 model User {
   userId            Int     @id @default(autoincrement())
-  // cognitoId         String  @unique
   username          String  @unique
   email             String  @unique
   password          String
   profilePictureUrl String?
   teamId            Int?
 
-  authoredTasks   Task[]           @relation("TaskAuthor")
-  assignedTasks   Task[]           @relation("TaskAssignee")
-  taskAssignments TaskAssignment[]
-  attachments     Attachment[]
-  comments        Comment[]
-  team            Team?            @relation(fields: [teamId], references: [id])
-  Project         Project[]        @relation("ProjectAuthor")
+  authoredTasks    Task[]           @relation("TaskAuthor")
+  assignedTasks    Task[]           @relation("TaskAssignee")
+  taskAssignments  TaskAssignment[]
+  attachments      Attachment[]
+  comments         Comment[]
+  team             Team?            @relation(fields: [teamId], references: [id])
+  authoredProjects Project[]        @relation("ProjectAuthor")
+  userProjects     ProjectTeam[]    @relation("UserProjects")
+
+  ProjectTeam ProjectTeam[]
+}
+
+model Project {
+  id           Int           @id @default(autoincrement())
+  authorUserId Int?
+  name         String
+  description  String?
+  startDate    DateTime?
+  endDate      DateTime?
+  fileURL      String?
+  fileName     String?
+  tasks        Task[]
+  userTeam     ProjectTeam[] @relation("UserProjects") // Relasi dengan ProjectTeam
+  author       User?         @relation("ProjectAuthor", fields: [authorUserId], references: [userId])
+}
+
+model ProjectTeam {
+  id        Int     @id @default(autoincrement())
+  userId    Int
+  teamId    Int?
+  projectId Int
+  team      Team?   @relation(fields: [teamId], references: [id])
+  project   Project @relation("UserProjects", fields: [projectId], references: [id])
+  user      User    @relation(fields: [userId], references: [userId])
+  User      User[]  @relation("UserProjects")
+
+  @@unique([projectId, userId])
 }
 
 model Team {
@@ -38,27 +67,6 @@ model Team {
   projectManagerUserId Int?
   projectTeams         ProjectTeam[]
   user                 User[]
-}
-
-model Project {
-  id           Int           @id @default(autoincrement())
-  authorUserId Int?           
-  name         String
-  description  String?
-  startDate    DateTime?
-  endDate      DateTime?
-  tasks        Task[]
-  projectTeams ProjectTeam[]
-  author       User?          @relation("ProjectAuthor", fields: [authorUserId], references: [userId])
-}
-
-model ProjectTeam {
-  id        Int     @id @default(autoincrement())
-  userId    Int
-  teamId    Int?
-  projectId Int
-  team      Team?    @relation(fields: [teamId], references: [id])
-  project   Project @relation(fields: [projectId], references: [id])
 }
 
 model Task {
@@ -74,6 +82,8 @@ model Task {
   projectId      Int
   authorUserId   Int
   assignedUserId Int?
+  filesUrl       String[]
+  filesName      String[]
 
   project         Project          @relation(fields: [projectId], references: [id])
   author          User             @relation("TaskAuthor", fields: [authorUserId], references: [userId])

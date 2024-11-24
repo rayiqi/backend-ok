@@ -48,7 +48,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: "https://backend-pm-pied.vercel.app", // Sesuaikan dengan URL API kamu
+        url: 'https://backend-pm-pied.vercel.app', // Sesuaikan dengan URL API kamu
       },
     ],
   },
