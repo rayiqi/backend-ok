@@ -37,29 +37,6 @@ app.use("/users", userRoutes);
 app.use("/teams", teamRoutes);
 app.use("/projects-teams", projectTeamRoutes);
 
-<<<<<<< HEAD
-// Konfigurasi Swagger
-const swaggerOptions = {
-  definition: {
-    openapi: "3.0.0",
-    info: {
-      title: "Project API Documentation",
-      version: "1.0.0",
-      description: "API documentation for Project Task Manager",
-    },
-    servers: [
-      {
-        url: 'https://backend-pm-pied.vercel.app', // Sesuaikan dengan URL API kamu
-      },
-    ],
-  },
-  apis: ["./src/routes/*.ts"], // Tentukan di mana file route yang berisi komentar Swagger
-};
-
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-=======
->>>>>>> b677cd23e1dd55a6991a18e758b3464131e7eceb
 /* SERVER */
 const port = Number(process.env.PORT) || 3000;
 app.listen(port, "0.0.0.0", () => {
