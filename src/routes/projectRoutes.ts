@@ -20,6 +20,7 @@ const upload = multer({ storage });
 router.get("/", getProjects);
 router.get("/my-projects", authenticateUser, getProjectsByAuthorUserId);
 router.get("/:projectId", getProjectByProjectId);
+// router.post("/", authenticateUser, createProject);
 router.post("/", authenticateUser, createProject);
 // router.post("/", authenticateUser, upload.single("file"), createProject);
 router.put("/:id", authenticateUser, updateProject);

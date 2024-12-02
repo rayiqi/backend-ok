@@ -13,6 +13,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Account {
+  id                 Int    @id @default(autoincrement())
+  provider           String
+  providerAccountId  String
+  email              String @unique
+  name               String?
+  image              String?
+  @@unique([provider, providerAccountId])
+}
+
 model User {
   userId            Int     @id @default(autoincrement())
   username          String  @unique
@@ -20,6 +30,13 @@ model User {
   password          String
   profilePictureUrl String?
   teamId            Int?
+  otp               String?
+  otpExpires        DateTime?
+  provider          String?
+  providerAccountId String?
+  image             String?
+  createdAt         DateTime? @default(now())
+  updatedAt         DateTime? @updatedAt
 
   authoredTasks    Task[]           @relation("TaskAuthor")
   assignedTasks    Task[]           @relation("TaskAssignee")
@@ -31,6 +48,7 @@ model User {
   userProjects     ProjectTeam[]    @relation("UserProjects")
 
   ProjectTeam ProjectTeam[]
+   @@unique([provider, providerAccountId])
 }
 
 model Project {

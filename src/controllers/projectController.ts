@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
-import { v2 as cloudinary } from 'cloudinary';
+import { v2 as cloudinary } from "cloudinary";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -25,7 +25,15 @@ export const getProjectsByAuthorUserId = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const authorUserId = (req as any).user.userId;
+  const rawAuthorUserId = (req as any).user.userId;
+  const authorUserId =
+    typeof rawAuthorUserId === "string"
+      ? Number(rawAuthorUserId)
+      : rawAuthorUserId;
+  if (isNaN(authorUserId)) {
+    res.status(400).json({ message: "invalid id format" });
+    return;
+  }
   try {
     const projects = await prisma.project.findMany({
       where: {
@@ -122,8 +130,6 @@ export const getProjectByProjectId = async (
 
 // Update project
 
-
-
 cloudinary.config({
   cloud_name: "de8lijtak",
   api_key: "169359231617536",
@@ -136,17 +142,17 @@ export const createProject = async (
 ): Promise<void> => {
   const { name, description, startDate, endDate, userTeam } = req.body;
   const authorUserId = (req as any).user.userId;
-  const file = req.file; 
+  const authorNumber = Number(authorUserId);
+  const file = req.file;
   console.log("file", file);
   try {
-
     const newProject = await prisma.project.create({
       data: {
         name,
         description,
         startDate,
         endDate,
-        authorUserId,
+        authorUserId: authorNumber,
         userTeam: {
           create: userTeam
             ? userTeam.map((userId: number) => ({
@@ -164,10 +170,11 @@ export const createProject = async (
 
     res.status(201).json(newProject);
   } catch (error: any) {
-    res.status(500).json({ message: `Error creating a project: ${error.message}` });
+    res
+      .status(500)
+      .json({ message: `Error creating a project: ${error.message}` });
   }
 };
-
 
 export const updateProject = async (
   req: Request,

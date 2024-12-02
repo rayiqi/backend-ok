@@ -11,6 +11,7 @@ import bodyParser from "body-parser";
 import projectRoutes from "./src/routes/projectRoutes";
 import taskRoutes from "./src/routes/taskRoutes";
 import userRoutes from "./src/routes/userRoutes";
+import searchRoutes  from "./src/routes/searchRoutes";
 
 /* CONFIGURATIONS */
 dotenv.config();
@@ -48,6 +49,7 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/projects", projectRoutes);
 app.use("/tasks", taskRoutes);
 app.use("/users", userRoutes);
+app.use("/search",searchRoutes)
 
 // Swagger Configuration
 // const swaggerOptions = {
