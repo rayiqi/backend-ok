@@ -11,7 +11,7 @@ import bodyParser from "body-parser";
 import projectRoutes from "./src/routes/projectRoutes";
 import taskRoutes from "./src/routes/taskRoutes";
 import userRoutes from "./src/routes/userRoutes";
-import searchRoutes  from "./src/routes/searchRoutes";
+import searchRoutes from "./src/routes/searchRoutes";
 
 /* CONFIGURATIONS */
 dotenv.config();
@@ -34,7 +34,11 @@ app.use(
 // CORS Configuration
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://pm-manage.vercel.app"],
+    origin: [
+      "http://localhost:3000",
+      "https://pm-manage.vercel.app",
+      "https://project-manage-iota.vercel.app",
+    ],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     credentials: true,
   })
@@ -49,7 +53,7 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/projects", projectRoutes);
 app.use("/tasks", taskRoutes);
 app.use("/users", userRoutes);
-app.use("/search",searchRoutes)
+app.use("/search", searchRoutes);
 
 // Swagger Configuration
 // const swaggerOptions = {
