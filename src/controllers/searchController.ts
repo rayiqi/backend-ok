@@ -36,3 +36,23 @@ export const search = async (req: Request, res: Response): Promise<void> => {
       .json({ message: `Error performing search: ${error.message}` });
   }
 };
+
+export const searchTaskByProjectId = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { projectId } = req.params;
+
+  try {
+    const tasks = await prisma.task.findMany({
+      where: {
+        projectId: parseInt(projectId),
+      },
+    });
+    res.status(200).json(tasks);
+  } catch (error:any) {
+    res
+      .status(500)
+      .json({ message: `Error searching tasks: ${error.message}` });
+  }
+};

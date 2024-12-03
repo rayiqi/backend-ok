@@ -29,6 +29,7 @@ export const getTasks = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+
 export const createTask = async (
   req: Request,
   res: Response
@@ -45,7 +46,11 @@ export const createTask = async (
     // projectId,
     // assignedUserId,
   } = req.body;
-  const authorUserId = (req as any).user.userId;
+  const rawAuthorUserId = (req as any).user.userId;
+  const authorUserId =
+    typeof rawAuthorUserId === "string"
+      ? Number(rawAuthorUserId)
+      : rawAuthorUserId;
 
   const projectId = parseInt(req.body.projectId);
   if (isNaN(projectId)) {
@@ -198,6 +203,8 @@ export const getTaskUser = async (
     res.status(500).json({ message: `Error getting task: ${error.message}` });
   }
 };
+
+
 
 // export const updateTask = async (req: Request, res: Response): Promise<void> => {
 //   const { taskId } = req.params;
